@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Google Sheets API AJAX - Ghi Dữ liệu</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        /* Style cho hiệu ứng loading */
+        #loading {
+            display: none;  /* Ẩn đi khi chưa gửi yêu cầu AJAX */
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            background-color: rgba(0, 0, 0, 0.7);
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Ghi dữ liệu vào Google Sheets</h1>
+    <button id="send-data">Ghi Dữ liệu</button>
+
+    <!-- Chỉ báo loading -->
+    <div id="loading">Loading...</div>
+
+    <script>
+        $(document).ready(function() {
+            $('#send-data').on('click', function() {
+                const data = {
+                    name: "Link Kha Kha",
+                    phone: "0359544034",
+                    attend: "Có",
+                    guest_of: "Chú rể",
+                    guest: "2",
+                    message: "hello"
+                };
+                console.log(JSON.stringify(data));
+                $('#loading').show();
+                $.ajax({
+                    url: '', // Thay thế bằng URL Webhook của bạn
+                    type: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify(data),
+                    success: function(response) {
+                        $('#loading').hide();
+                        console.log(response); // Xem phản hồi từ Google Apps Script
+                    },
+                    error: function(xhr, status, error) {
+                        $('#loading').hide();
+                        console.error('Lỗi:', error);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
